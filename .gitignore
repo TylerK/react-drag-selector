@@ -3,7 +3,6 @@
 npm-debug.log*
 node_modules
 amd
-lib
 tmp-bower-repo
 .sass-cache
 dist
