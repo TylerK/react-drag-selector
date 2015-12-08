@@ -1,16 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { DragSelector } from './app';
-import { SelectionTarget } from './app';
+import DragSelector from './lib/drag-selector';
+import SelectionTarget from './lib/selection-target';
 
 class App extends React.Component {
   render() {
     return (
       <DragSelector>
-        <SelectionTarget />
-        <SelectionTarget />
-        <SelectionTarget />
-        <SelectionTarget />
         <SelectionTarget />
       </DragSelector>
     );
