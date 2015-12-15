@@ -1,5 +1,11 @@
+/* no-did-mount-set-state: 0 */
+
 import React from 'react';
 import './drag-selector.scss';
+
+const config = {
+  padding: 4
+};
 
 export default class DragSelector extends React.Component {
   constructor(props) {
@@ -7,10 +13,33 @@ export default class DragSelector extends React.Component {
     this.state = { isDragging: false };
   }
 
+  componentDidMount() {
+    // This may be an actual case for using setState here.
+    // TODO: Investigate.
+    this.setState({
+      bounds: this.refs.wrapper.getBoundingClientRect()
+    });
+  }
+
+  _yPos(e) {
+    return e.clientY - this.state.bounds.top;
+  }
+
+  _xPos(e) {
+    return e.clientX - this.state.bounds.left;
+  }
+
+  _checkColisions(e, height, width) {
+    console.log(this.state.bounds);
+    return [ false ];
+  }
+
   _handleMouseDown(e) {
     e.preventDefault();
-    e.stopPropagation();
-    const wrapper = this.refs.wrapper.getBoundingClientRect();
+    const wrapper = this.state.bounds;
+
+    const hasCollisions = this._checkColisions(e).some(item => item);
+    if (hasCollisions) return;
 
     this.setState({
       isDragging: true,
@@ -29,14 +58,24 @@ export default class DragSelector extends React.Component {
     e.preventDefault();
     if (!this.state.isDragging) return;
 
-    const wrapper = this.refs.wrapper.getBoundingClientRect();
-
+    const wrapper = this.state.bounds;
     const startY = this.state.startY;
     const startX = this.state.startX;
-    const offsetY = e.clientY - wrapper.top;
-    const offsetX = e.clientX - wrapper.left;
+    const offsetY = this._yPos(e);
+    const offsetX = this._xPos(e);
 
-    // TODO add a no-fly zone that
+    // Hit the no-fly zone?
+    if (offsetY >= wrapper.height - config.padding ||
+        offsetY <= config.padding ||
+        offsetX <= config.padding ||
+        offsetX >= wrapper.width - config.padding) {
+      this.setState({
+        isDragging: false
+      });
+
+      return;
+    }
+
     this.setState({
       isDragging: true,
       indicator: {
@@ -50,6 +89,7 @@ export default class DragSelector extends React.Component {
 
   _handleMouseUp(e) {
     e.preventDefault();
+
     this.setState({
       isDragging: false,
       startY: 0,

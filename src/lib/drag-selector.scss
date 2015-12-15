@@ -6,6 +6,11 @@
   height: 100%;
   padding: 1rem;
 
+  // For display purposes
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .selection-indicator {
     position: absolute;
     width: 100%;

@@ -7,7 +7,15 @@ class App extends React.Component {
   render() {
     return (
       <DragSelector>
-        <SelectionTarget />
+        <SelectionTarget>
+          <p>Select me</p>
+        </SelectionTarget>
+        <SelectionTarget>
+          <p>Select me</p>
+        </SelectionTarget>
+        <SelectionTarget>
+          <p>Select me</p>
+        </SelectionTarget>
       </DragSelector>
     );
   }
