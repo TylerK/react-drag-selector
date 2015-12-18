@@ -13,7 +13,7 @@ export default class SelectionTarget extends React.Component {
     const isSelected = this.props.isSelected ? 'is-selected' : '';
 
     return (
-      <div ref='target' className={`selection-target ${isSelected}`}>
+      <div className={`selection-target ${isSelected}`}>
         {this.props.children}
       </div>
     );

@@ -50,12 +50,16 @@ export default class DragSelectionWrapper extends React.Component {
    */
   _checkCollisions(e) {
     return this.props.children
-    .map(child => {
-      const wrapper = this.bounds;
+    .map((child, i) => {
       const ey = this._yPos(e);
       const ex = this._xPos(e);
-      const elem = ReactDOM.findDOMNode(child);
-      const rect = elem.getBoundingClientRect();
+      const elem = ReactDOM.findDOMNode(this.refs.wrapper.children[i]);
+      const rect = {
+        top: elem.offsetTop,
+        bottom: elem.offsetTop + elem.offsetHeight,
+        left: elem.offsetLeft,
+        right: elem.offsetLeft + elem.offsetWidth
+      };
 
       return ey <= rect.bottom &&
              ey >= rect.top &&
