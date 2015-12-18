@@ -29,7 +29,7 @@ export default class DragSelectionWrapper extends React.Component {
    * @param {object} e - Synthetic Event
    * @return {number}
    */
-  __yPos(e) {
+  _yPos(e) {
     return e.clientY - this.bounds.top;
   }
 
@@ -38,7 +38,7 @@ export default class DragSelectionWrapper extends React.Component {
    * @param {object} Synthetic Event
    * @return {number}
    */
-  __xPos(e) {
+  _xPos(e) {
     return e.clientX - this.bounds.left;
   }
 
@@ -52,8 +52,8 @@ export default class DragSelectionWrapper extends React.Component {
     return this.props.children
     .map(child => {
       const wrapper = this.bounds;
-      const ey = e.clientY - wrapper.top;
-      const ex = e.clientX - wrapper.left;
+      const ey = this._yPos(e);
+      const ex = this._xPos(e);
       const elem = ReactDOM.findDOMNode(child);
       const rect = elem.getBoundingClientRect();
 
@@ -101,8 +101,8 @@ export default class DragSelectionWrapper extends React.Component {
     const wrapper = this.bounds;
     const startY = this.state.startY;
     const startX = this.state.startX;
-    const offsetY = this.__yPos(e);
-    const offsetX = this.__xPos(e);
+    const offsetY = this._yPos(e);
+    const offsetX = this._xPos(e);
 
     // Hit the no-fly zone?
     if (offsetY >= wrapper.height - config.padding ||
