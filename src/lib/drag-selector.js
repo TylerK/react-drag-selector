@@ -1,45 +1,81 @@
 /* no-did-mount-set-state: 0 */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './drag-selector.scss';
 
 const config = {
-  padding: 4
+  padding: 2
 };
 
-export default class DragSelector extends React.Component {
+export default class DragSelectionWrapper extends React.Component {
+  static propTypes() {
+    return {
+      children: React.PropTypes.element.isRequired
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = { isDragging: false };
   }
 
   componentDidMount() {
-    // This may be an actual case for using setState here.
-    // TODO: Investigate.
-    this.setState({
-      bounds: this.refs.wrapper.getBoundingClientRect()
-    });
+    this.bounds = this.refs.wrapper.getBoundingClientRect();
   }
 
-  _yPos(e) {
-    return e.clientY - this.state.bounds.top;
+  /*
+   * Utility: Return y mouse position relative to the wrapper
+   * @param {object} e - Synthetic Event
+   * @return {number}
+   */
+  __yPos(e) {
+    return e.clientY - this.bounds.top;
   }
 
-  _xPos(e) {
-    return e.clientX - this.state.bounds.left;
+  /*
+   * Utility: Return x mouse position relative to the wrapper
+   * @param {object} Synthetic Event
+   * @return {number}
+   */
+  __xPos(e) {
+    return e.clientX - this.bounds.left;
   }
 
-  _checkColisions(e, height, width) {
-    console.log(this.state.bounds);
-    return [ false ];
+  /*
+   * Utility: Return true \ false if the mouse is inside the bounds
+   * of a child <SelectionTarget> element.
+   * @param {object} e - Synthetic Event
+   * @return {number}
+   */
+  _checkCollisions(e) {
+    return this.props.children
+    .map(child => {
+      const wrapper = this.bounds;
+      const ey = e.clientY - wrapper.top;
+      const ex = e.clientX - wrapper.left;
+      const elem = ReactDOM.findDOMNode(child);
+      const rect = elem.getBoundingClientRect();
+
+      return ey <= rect.bottom &&
+             ey >= rect.top &&
+             ex >= rect.left &&
+             ex <= rect.right;
+    })
+    .some(isCollided => isCollided);
   }
 
+  /*
+   * Mouse down event handler logic.
+   * @param {object} e - Synthetic Event
+   */
   _handleMouseDown(e) {
     e.preventDefault();
-    const wrapper = this.state.bounds;
+    const wrapper = this.bounds;
+    const isCollided = this._checkCollisions(e);
 
-    const hasCollisions = this._checkColisions(e).some(item => item);
-    if (hasCollisions) return;
+    console.log('BOOM:', isCollided);
+    if (isCollided) return;
 
     this.setState({
       isDragging: true,
@@ -54,15 +90,19 @@ export default class DragSelector extends React.Component {
     });
   }
 
+  /*
+   * Mouse movement event handler logic.
+   * @param {object} e - Synthetic Event
+   */
   _handleMouseMove(e) {
     e.preventDefault();
     if (!this.state.isDragging) return;
 
-    const wrapper = this.state.bounds;
+    const wrapper = this.bounds;
     const startY = this.state.startY;
     const startX = this.state.startX;
-    const offsetY = this._yPos(e);
-    const offsetX = this._xPos(e);
+    const offsetY = this.__yPos(e);
+    const offsetX = this.__xPos(e);
 
     // Hit the no-fly zone?
     if (offsetY >= wrapper.height - config.padding ||
@@ -78,15 +118,14 @@ export default class DragSelector extends React.Component {
 
     this.setState({
       isDragging: true,
-      indicator: {
-        sy: startY,
-        sx: startX,
-        ey: offsetY,
-        ex: offsetX
-      }
+      indicator: { sy: startY, sx: startX, ey: offsetY, ex: offsetX }
     });
   }
 
+  /*
+   * Mouse up event handler logic.
+   * @param {object} e - Synthetic Event
+   */
   _handleMouseUp(e) {
     e.preventDefault();
 
@@ -94,15 +133,13 @@ export default class DragSelector extends React.Component {
       isDragging: false,
       startY: 0,
       startX: 0,
-      indicator: {
-        sy: 0,
-        sx: 0,
-        ey: 0,
-        ex: 0
-      }
+      indicator: { sy: 0, sx: 0, ey: 0, ex: 0 }
     });
   }
 
+  /*
+   * Render sub method used to draw the selection box
+   */
   renderIndicator() {
     const wrapper = this.refs.wrapper.getBoundingClientRect();
     const st = this.state.indicator;

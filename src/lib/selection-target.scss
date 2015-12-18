@@ -1,8 +1,14 @@
 .selection-target {
   width: 100px;
   height: 100px;
-  background: pink;
   margin: 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 3px;
+  border-bottom-width: 2px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.is-selected {
     border: 3px solid darken(#00a2ff, 10%);

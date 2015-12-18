@@ -7,15 +7,13 @@ class App extends React.Component {
   render() {
     return (
       <DragSelector>
-        <SelectionTarget>
-          <p>Select me</p>
-        </SelectionTarget>
-        <SelectionTarget>
-          <p>Select me</p>
-        </SelectionTarget>
-        <SelectionTarget>
-          <p>Select me</p>
-        </SelectionTarget>
+        {[1, 2, 3, 4, 5].map((item, i) => {
+          return (
+            <SelectionTarget key={`SelectionTarget${i}`} ref={`SelectionTarget${i}`}>
+              <p>Select Me!</p>
+            </SelectionTarget>
+          );
+        })}
       </DragSelector>
     );
   }
