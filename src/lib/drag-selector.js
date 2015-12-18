@@ -141,7 +141,7 @@ export default class DragSelectionWrapper extends React.Component {
    * Render sub method used to draw the selection box
    */
   renderIndicator() {
-    const wrapper = this.refs.wrapper.getBoundingClientRect();
+    const wrapper = this.bounds();
     const st = this.state.indicator;
     const sY = st.sy;
     const sX = st.sx;
