@@ -15,10 +15,10 @@
     "clean-demo": "rm -rf ./demo && mkdir ./demo",
     "watch": "./node_modules/.bin/webpack-dev-server --hot --colors",
     "start": "npm run clean-dist && npm run watch",
-    "demo": "npm run clean-demo && npm run demo-html && npm run demo-css && npm run demo-scripts",
+    "demo": "npm run clean-demo && npm run demo-scripts && npm run demo-css && npm run demo-html",
     "demo-html": "cp ./index.html ./demo && cp ./title.png ./demo",
     "demo-css": "scss ./src/example.scss ./demo/index.css",
-    "demo-scripts": "./node_modules/.bin/babel ./src/example.js -o ./demo/index.js",
+    "demo-scripts": "webpack -p && cp ./dist/*.* ./demo",
     "build": "npm run clean-dist && ./node_modules/.bin/babel ./src/app/lib/index.js -o ./dist/index.js",
     "prepublish": "npm run build"
   },
