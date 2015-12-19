@@ -1,40 +1,37 @@
-$color: #00a2ff;
-
 * {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
+
 body, html {
   width: 100%;
   height: 100%;
   background: #ecf0f1;
   font-family: sans-serif;
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
+
 .wrapper {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-}
+  align-items: center; }
+
 .app-wrapper {
   position: relative;
   min-width: 46rem;
   min-height: 32rem;
   background: #fff;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
-}
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05); }
+
 #app {
   width: 100%;
   height: 100%;
-  position: absolute;
-}
+  position: absolute; }
+
 .title {
   position: absolute;
   top: -35px;
-  right: -50px;
-}
+  right: -50px; }
 
 .drag-select-wrapper {
   position: absolute;
@@ -43,24 +40,23 @@ body, html {
   width: 100%;
   height: 100%;
   padding: 1rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-flow: row wrap;
-}
+  flex-flow: row wrap; }
+
 .drag-select-indicator {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
-}
+  left: 0; }
+
 .drag-select-indicator__overlay {
-  fill: $color;
+  fill: #00a2ff;
   fill-opacity: 0.1;
-  stroke: $color;
-}
+  stroke: #00a2ff; }
+
 .selection-target {
   width: 100px;
   height: 100px;
@@ -69,19 +65,12 @@ body, html {
   border: 1px solid #eaeaea;
   border-radius: 3px;
   border-bottom-width: 2px;
-
   text-align: center;
-  line-height: 100px;
-
-  &.is-selected {
-    border-color: $color;
-    box-shadow: 0px 0px 0px 1px $color;
-    transition: all 0.15s ease-out;
-  }
-
-  p {
+  line-height: 100px; }
+  .selection-target.is-selected {
+    border-color: #00a2ff;
+    box-shadow: 0px 0px 0px 1px #00a2ff;
+    transition: all 0.15s ease-out; }
+  .selection-target p {
     margin: 0;
-    padding: 0;
-  }
-}
-
+    padding: 0; }

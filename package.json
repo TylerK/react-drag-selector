@@ -11,10 +11,15 @@
     "drag"
   ],
   "scripts": {
-    "clean": "rm -rf ./dist && mkdir ./dist",
+    "clean-dist": "rm -rf ./dist && mkdir ./dist",
+    "clean-demo": "rm -rf ./demo && mkdir ./demo",
     "watch": "./node_modules/.bin/webpack-dev-server --hot --colors",
-    "start": "npm run clean && npm run watch",
-    "build": "npm run clean && ./node_modules/.bin/babel ./src/app/index.js -o ./dist/index.js",
+    "start": "npm run clean-dist && npm run watch",
+    "demo": "npm run clean-demo && npm run demo-html && npm run demo-css && npm run demo-scripts",
+    "demo-html": "cp ./index.html ./demo && cp ./title.png ./demo",
+    "demo-css": "scss ./src/example.scss ./demo/index.css",
+    "demo-scripts": "./node_modules/.bin/babel ./src/example.js -o ./demo/index.js",
+    "build": "npm run clean-dist && ./node_modules/.bin/babel ./src/app/lib/index.js -o ./dist/index.js",
     "prepublish": "npm run build"
   },
   "devDependencies": {
