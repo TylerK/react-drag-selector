@@ -1,5 +1,4 @@
 import React from 'react';
-import './selection-target.scss';
 
 export default class SelectionTarget extends React.Component {
   static propTypes() {
@@ -11,7 +10,6 @@ export default class SelectionTarget extends React.Component {
 
   render() {
     const isSelected = this.props.isSelected ? 'is-selected' : '';
-
     return (
       <div className={`selection-target ${isSelected}`}>
         {this.props.children}

@@ -1,20 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
-import DragSelector from './lib/drag-selector';
-import SelectionTarget from './lib/selection-target';
+import {
+  DragSelectionWrapper,
+  SelectionTarget
+} from './app';
+
+import './example.scss';
 
 class App extends React.Component {
   render() {
     return (
-      <DragSelector>
-        {[1, 2, 3, 4, 5].map((item, i) => {
+      <DragSelectionWrapper>
+        {[1, 2, 3].map((item, i) => {
           return (
-            <SelectionTarget key={`SelectionTarget${i}`} ref={`SelectionTarget${i}`}>
+            <SelectionTarget ref={`SelectionTarget${i}`} key={`SelectionKey${i}`}>
               <p>Select Me!</p>
             </SelectionTarget>
           );
         })}
-      </DragSelector>
+      </DragSelectionWrapper>
     );
   }
 }
